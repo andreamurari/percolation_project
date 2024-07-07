@@ -87,18 +87,6 @@ def largest_cluster_size (clusters):
 def number_of_clusters(clusters):
   return len(clusters)
 
-"""#SVOLGIMENTO"""
-
-#coordinates_x, coordinates_y = generate_poisson_coordinates(T, l)
-
-#clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
-#clusters = remove_duplicates(clusters_with_duplicates)
-#print(clusters)
-
-#largest_cluster_size(clusters)
-
-#number_of_clusters(clusters)
-
 """#ITERAZIONI
 
 ##LAMBDA = ?
