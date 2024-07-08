@@ -111,6 +111,7 @@ network (X, λ, 1), will be computed the empirical average of the M sizes of the
 Then, by running several simulations and collecting the results in appropriate plots, will be investigated the following problems:"""
   """*  How the size of the largest cluster depends on λ, considering when it's > / < / = λc (=  4.512/4π)."""
   """*  How the number of clusters depends on λ."""
+  
 with st.expander('Analysis with λ free'):
   """
   In this section, fixed a value for "λ", are computed: the average size of the largest cluster, the average number of clusters and the average number of pointS. 
@@ -198,11 +199,15 @@ with st.expander('Analysis with λ free'):
       clusters_info_0 = pd.Series(largest_cluster_size_df_0, name = 'largest_cluster_size')
       clusters_info_0 = pd.concat([pd.Series(number_of_ponits_df_0, name = 'number_of_ponits'), pd.Series(number_of_clusters_df_0, name = 'number_of_clusters'), clusters_info_0], axis = 1)
 
-      st.write(clusters_info_0.describe())
-
       mean_largest_cluster_size_0 = np.mean(largest_cluster_size_df_0)
       mean_number_of_clusters_0 = np.mean(number_of_clusters_df_0)
-      st.write("Mean of the largest cluster's size = ", mean_largest_cluster_size_0, "\nMean of the number of clusters = ", mean_number_of_clusters_0)
+      st.write("As we can see from the following table, the mean of the largest cluster's size in ", M, "iterations is ", mean_largest_cluster_size_0, 
+                "\n, the mean of the number of clusters is: ", mean_number_of_clusters_0,
+                "and the average number of points is: ", np.mean(number_of_ponits_df_0))
+      col_8, col_9, col_10 = st.columns(3)
+      with col_9:
+        st.write(clusters_info_0.describe())
+
 
       # Create a list to store colors for each cluster
       cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
@@ -215,7 +220,9 @@ with st.expander('Analysis with λ free'):
         plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
       plt.xticks(range(0, T + 1, int(T/10)))
       plt.yticks(range(0, T + 1, int(T/10)))
+      plt.title('Scatter-plot of the last iteration')
       plt.show()
+      """Finally, we can take a look at the scatter-plot of the last iteration: clusters are identified with different colors (some colors may be repeated)"""
       col_5, col_6, col_7 = st.columns([0.3, 0.4, 0.3])
       with col_6:
         st.pyplot(fig_04)
