@@ -139,35 +139,38 @@ plt.show()
 
 st.pyplot(fig_01)
 
-plt.figure(figsize = (10, 5))
+fig_02, ax = plt.subplots(figsize = (10,5))
 plt.bar(range(M), largest_cluster_size_df_0, color = 'maroon')
 plt.title('Largest Cluster Size')
 plt.xlabel('Iteration')
 plt.ylabel('Largest Cluster Size')
 plt.show()
 
-plt.figure(figsize = (10, 5))
+st.pyplot(fig_02)
+
+fig_03, ax = plt.subplots(figsize = (10,5))
 plt.bar(range(M), number_of_clusters_df_0, color = 'forestgreen')
 plt.title('Number of Clusters')
 plt.xlabel('Iteration')
 plt.ylabel('Number of Clusters')
-
 plt.show()
+
+st.pyplot(fig_03)
 
 clusters_info_0 = pd.Series(largest_cluster_size_df_0, name = 'largest_cluster_size')
 clusters_info_0 = pd.concat([pd.Series(number_of_ponits_df_0, name = 'number_of_ponits'), pd.Series(number_of_clusters_df_0, name = 'number_of_clusters'), clusters_info_0], axis = 1)
 
-clusters_info_0.describe()
+st.write(clusters_info_0.describe())
 
 mean_largest_cluster_size_0 = np.mean(largest_cluster_size_df_0)
 mean_number_of_clusters_0 = np.mean(number_of_clusters_df_0)
-print("Mean of the largest cluster's size = ", mean_largest_cluster_size_0, "\nMean of the number of clusters = ", mean_number_of_clusters_0)
+st.write("Mean of the largest cluster's size = ", mean_largest_cluster_size_0, "\nMean of the number of clusters = ", mean_number_of_clusters_0)
 
 # Create a list to store colors for each cluster
 cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
 
 # Create a scatter plot with points colored by cluster
-plt.figure(figsize = (5, 5))
+fig_04, ax = plt.subplots(figsize = (5,5))
 for i, cluster in enumerate(clusters):
   x_values = [coordinates_x[index] for index in cluster]
   y_values = [coordinates_y[index] for index in cluster]
@@ -176,6 +179,7 @@ plt.xticks(range(0, T + 1, int(T/10)))
 plt.yticks(range(0, T + 1, int(T/10)))
 plt.show()
 
+st.pyplot(fig_04)
 """##PUNTO 1
 
 ###LAMBDA = 4.512/4PI
