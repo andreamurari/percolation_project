@@ -15,7 +15,7 @@ import builtins as bt
 import matplotlib.pyplot as plt
 from scipy.stats import poisson
 from sklearn.cluster import DBSCAN
-
+st.title("PERCOLATION_PROJECT")
 """#FUNZIONI"""
 
 #FUNZIONE CHE GENERA COORDINATE CON UNA POIS LAMBA * T^2
