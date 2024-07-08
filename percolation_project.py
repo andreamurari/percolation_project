@@ -86,17 +86,42 @@ def largest_cluster_size (clusters):
 #FUNZIONE CHE RESTITUISCE IL NUMERO DI CLUSTERS
 def number_of_clusters(clusters):
   return len(clusters)
+with st.expander('Introduction'):
+  """Percolation theory describes how the size of clusters of connected set of edges of large random networks
+varies as the connectivity - i.e. the probability that two vertices are connected by an edge - changes. As the
+connectivity increases the system undergoes a transition from a situation where the clusters are small in size to
+a picture with significantly larger clusters. This transition is not smooth, but rather it happens sharply as the
+connectivity crosses a critical value, called percolation threshold. 
+The scope of the present project is to study numerically this phenomenon in Boolean networks.
 
+\nWHAT IS A BOOLEAN NETWORK?
+
+\nConsider X a Poisson process of density λ > 0 on the plane and take r > 0. A Boolean random
+network on the plane, denoted by (X, λ, r), is constructed as follows: given a realization of the
+Poisson process X, two elements x, y ∈ X are connected if their Euclidean distance is smaller than
+or equal to 2r. This geometrically corresponds to placing discs of radius r at the points of the
+Poisson process and considering connected components formed by clusters of overlapping discs.
+
+\nGiven a random network, a cluster is a set of connected points and the cluster size is defined as the
+number of nodes belonging to the cluster itself. Natural and relevant questions to address concern
+the number of clusters present in the network and the size of the largest cluster.
+The current project consists in what follows. Set r = 1 and taken a squared domain Λ = [0, T]×[0, T],
+with T > 0 large, fixed a value of λ and made M independent simulations of the Boolean random
+network (X, λ, 1), will be computed the empirical average of the M sizes of the largest cluster.
+Then, by running several simulations and collecting the results in appropriate plots, will be investigated the following problems:"""
+  """*  How the size of the largest cluster depends on λ, considering when it's > / < / = λc (=  4.512/4π)."""
+  """*  How the number of clusters depends on λ."""
 with st.expander('Analysis with λ free'):
-  """#ITERAZIONI
-
-  ##LAMBDA = ?
   """
-  """ Default values: 
+  In this section, fixed a value for "λ", are computed: the average size of the largest cluster, the average number of clusters and the average number of pointS. 
+  \n The proposed values for the parameters T, λ, M are : 
 
-  * T = 20 MAX DOMINIO
-  * λ = 1 LAMBDA
-  * M = 50 NUMERO ITERAZIONI"""
+  * T = 20 (MAX DOMAIN)
+  * λ = 1 (LAMBDA)
+  * M = 50 (NUMBER OF ITERATIONS)
+  
+  \nThese values can be changed with the checkbox below.
+  """
     
   T = 20 #MAX DOMINIO
   l = 1 #LAMBDA
@@ -134,6 +159,14 @@ with st.expander('Analysis with λ free'):
         number_of_clusters_df_0.append(number_of_clusters(clusters))
         number_of_ponits_df_0.append(N)
 
+      """Here can be seen the bar chart of:"""
+      
+      """* Number Of Points"""
+      """*  Largest Cluster Size"""
+      """*  Number of Clusters"""
+              
+      col_2, col_3, col_4 = st.columns(3)
+      
       fig_01, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), number_of_ponits_df_0, color = 'cadetblue')
       plt.title('Number Of Points')
@@ -141,7 +174,8 @@ with st.expander('Analysis with λ free'):
       plt.ylabel('Number Of Points')
       plt.show()
 
-      st.pyplot(fig_01)
+      with col_2:
+        st.pyplot(fig_01)
 
       fig_02, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), largest_cluster_size_df_0, color = 'maroon')
@@ -149,8 +183,8 @@ with st.expander('Analysis with λ free'):
       plt.xlabel('Iteration')
       plt.ylabel('Largest Cluster Size')
       plt.show()
-
-      st.pyplot(fig_02)
+      with col_3:
+        st.pyplot(fig_02)
 
       fig_03, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), number_of_clusters_df_0, color = 'forestgreen')
@@ -158,8 +192,8 @@ with st.expander('Analysis with λ free'):
       plt.xlabel('Iteration')
       plt.ylabel('Number of Clusters')
       plt.show()
-
-      st.pyplot(fig_03)
+      with col_4:
+        st.pyplot(fig_03)
 
       clusters_info_0 = pd.Series(largest_cluster_size_df_0, name = 'largest_cluster_size')
       clusters_info_0 = pd.concat([pd.Series(number_of_ponits_df_0, name = 'number_of_ponits'), pd.Series(number_of_clusters_df_0, name = 'number_of_clusters'), clusters_info_0], axis = 1)
@@ -182,8 +216,8 @@ with st.expander('Analysis with λ free'):
       plt.xticks(range(0, T + 1, int(T/10)))
       plt.yticks(range(0, T + 1, int(T/10)))
       plt.show()
-      col_2, col_3, col_4 = st.columns([0.15, 0.7, 0.15])
-      with col_3:
+      col_5, col_6, col_7 = st.columns([0.3, 0.4, 0.3])
+      with col_6:
         st.pyplot(fig_04)
 
 #punto 1
@@ -248,7 +282,7 @@ with st.expander('Analysis with λ = 4.512/4π'):
   for i, cluster in enumerate(clusters):
     x_values = [coordinates_x[index] for index in cluster]
     y_values = [coordinates_y[index] for index in cluster]
-    plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)])
+    plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
   plt.xticks(range(0, T + 1, int(T/10)))
   plt.yticks(range(0, T + 1, int(T/10)))
   plt.show()
@@ -313,7 +347,7 @@ with st.expander('Analysis with λ > 4.512/4π'):
   for i, cluster in enumerate(clusters):
     x_values = [coordinates_x[index] for index in cluster]
     y_values = [coordinates_y[index] for index in cluster]
-    plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)])
+    plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
   plt.xticks(range(0, T + 1, int(T/10)))
   plt.yticks(range(0, T + 1, int(T/10)))
   plt.show()
@@ -378,7 +412,7 @@ with st.expander('Analysis with λ < 4.512/4π'):
   for i, cluster in enumerate(clusters):
     x_values = [coordinates_x[index] for index in cluster]
     y_values = [coordinates_y[index] for index in cluster]
-    plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)])
+    plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
   plt.xticks(range(0, T + 1, int(T/10)))
   plt.yticks(range(0, T + 1, int(T/10)))
   plt.show()
