@@ -15,8 +15,8 @@ import builtins as bt
 import matplotlib.pyplot as plt
 from scipy.stats import poisson
 from sklearn.cluster import DBSCAN
-st.title("PERCOLATION_PROJECT")
-"""#FUNZIONI"""
+st.title("Percolation on Boolean Networks")
+#FUNZIONI
 
 #FUNZIONE CHE GENERA COORDINATE CON UNA POIS LAMBA * T^2
 
@@ -91,15 +91,29 @@ def number_of_clusters(clusters):
 
 ##LAMBDA = ?
 """
+""" Default values: 
 
-#T = int(bt.input('Inserisci la dimenzione massima del dominio(max suggested = 40): '))
-#l = float(bt.input('Inserisci il valore di  λ (max suggested = 2): '))
-#M = int(bt.input('Inserisci il nummero iterazioni M: '))
-
-
+* T = 20 MAX DOMINIO
+* λ = 1 LAMBDA
+* M = 50 NUMERO ITERAZIONI"""
+  
 T = 20 #MAX DOMINIO
 l = 1 #LAMBDA
-M = 10 #NUMERO ITERAZIONI
+M = 50 #NUMERO ITERAZIONI
+
+col_0, col_1 = st.columns([0.7, 0.3])
+with col_0:
+  if st.button('Modify values'):
+    T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
+    l = float(st.text_input('Insert value of  λ (max suggested = 2): ', 1))
+    M = int(st.text_input('Insert nummber of iterations M: ', 10))
+
+with col_1:
+  if st.button('Use default values'):
+    T = 20 #MAX DOMINIO
+    l = 1 #LAMBDA
+    M = 50 #NUMERO ITERAZIONI
+
 
 #ITERAZIONI E CREAZIONE DFs
 largest_cluster_size_df_0 = []
@@ -111,18 +125,19 @@ for i in range(M):
   clusters = remove_duplicates(clusters_with_duplicates)
   clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
   clusters = remove_duplicates(clusters_with_duplicates)
-  #print ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
+  #st.write ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
   largest_cluster_size_df_0.append(largest_cluster_size(clusters))
   number_of_clusters_df_0.append(number_of_clusters(clusters))
   number_of_ponits_df_0.append(N)
 
-plt.figure(figsize = (10, 5))
+fig_01, ax = plt.subplots(figsize = (10,5))
 plt.bar(range(M), number_of_ponits_df_0, color = 'cadetblue')
 plt.title('Number Of Points')
 plt.xlabel('Iteration')
 plt.ylabel('Number Of Points')
-
 plt.show()
+
+st.pyplot(fig_01)
 
 plt.figure(figsize = (10, 5))
 plt.bar(range(M), largest_cluster_size_df_0, color = 'maroon')
