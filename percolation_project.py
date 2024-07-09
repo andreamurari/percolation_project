@@ -227,22 +227,21 @@ with st.expander('Analysis with λ free'):
       with col_6:
         st.pyplot(fig_04)
 
-#punto 1
 
 with st.expander('Analysis with λ = 4.512/4π'):
   """
   The parameters set for this section are:"""
   """
-  * T = 20 #MAX DOMINIO
-  * l = 4.512/(4*π) #LAMBDA
-  * M = 200 #NUMERO ITERAZIONI
+  * T = 20 (MAX DOMAIN)
+  * λ = 4.512/(4*π) (LAMBDA)
+  * M = 200 (NUMBER OF ITERATIONS)
   """
 
   T = 20 #MAX DOMINIO
   l = 4.512/(4*math.pi) #LAMBDA
   M = 200 #NUMERO ITERAZIONI
   """The values of T and M can be modified selecting the following checkbox, otherwise will be used the default parameters."""
-  if st.checkbox('Modify values of  T and M'):
+  if st.checkbox('Modify values of T and M'):
       T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
       M = int(st.text_input('Insert number of iterations M: ', 200))
   
@@ -266,39 +265,66 @@ with st.expander('Analysis with λ = 4.512/4π'):
         number_of_clusters_df_1.append(number_of_clusters(clusters))
         number_of_ponits_df_1.append(N)
 
-      plt.figure(figsize = (10, 5))
+      """Here can be seen the bar chart of:"""
+      
+      """* Number Of Points"""
+      """*  Largest Cluster Size"""
+      """*  Number of Clusters"""
+      
+      col_11, col_12, col_13 = st.columns(3)
+      
+      fig_11, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), number_of_ponits_df_1, color = 'cadetblue')
       plt.title('Number Of Points')
       plt.xlabel('Iteration')
       plt.ylabel('Number Of Points')
-
       plt.show()
-
-      plt.figure(figsize = (10, 5))
+      
+      with col_11:
+        st.pyplot(fig_11)
+        
+      fig_12, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), largest_cluster_size_df_1, color = 'maroon')
       plt.title('Largest Cluster Size')
       plt.xlabel('Iteration')
       plt.ylabel('Largest Cluster Size')
       plt.show()
-
-      plt.figure(figsize = (10, 5))
+      
+      with col_12:
+        st.pyplot(fig_12)
+        
+      fig_13, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), number_of_clusters_df_1, color = 'forestgreen')
       plt.title('Number of Clusters')
       plt.xlabel('Iteration')
       plt.ylabel('Number of Clusters')
-
       plt.show()
 
+      with col_13:
+        st.pyplot(fig_13)
+
+      
+      
+      
+      
+      
       clusters_info_1 = pd.Series(largest_cluster_size_df_1, name = 'largest_cluster_size')
       clusters_info_1 = pd.concat([pd.Series(number_of_ponits_df_1, name = 'number_of_ponits'), pd.Series(number_of_clusters_df_1, name = 'number_of_clusters'), clusters_info_1], axis = 1)
 
-      clusters_info_1.describe()
-
+      mean_largest_cluster_size_1 = np.mean(largest_cluster_size_df_1)
+      mean_number_of_clusters_1 = np.mean(number_of_clusters_df_1)
+      st.write("As we can see from the following table, the mean of the largest cluster's size in ", M, "iterations is ", mean_largest_cluster_size_1, 
+                "\n, the mean of the number of clusters is: ", mean_number_of_clusters_1,
+                "and the average number of points is: ", np.mean(number_of_ponits_df_1))
+      col_14, col_15, col_16 = st.columns([0.33, 0.34, 0.33])
+      with col_15:
+        st.write(clusters_info_1.describe())
+      
       # Create a list to store colors for each cluster
       cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
 
       # Create a scatter plot with points colored by cluster
-      plt.figure(figsize = (5, 5))
+      fig_14, ax = plt.subplots(figsize = (5, 5))
       for i, cluster in enumerate(clusters):
         x_values = [coordinates_x[index] for index in cluster]
         y_values = [coordinates_y[index] for index in cluster]
@@ -306,16 +332,21 @@ with st.expander('Analysis with λ = 4.512/4π'):
       plt.xticks(range(0, T + 1, int(T/10)))
       plt.yticks(range(0, T + 1, int(T/10)))
       plt.show()
+      
+      """Finally, we can take a look at the scatter-plot of the last iteration: clusters are identified with different colors (some colors may be repeated)"""
+      col_17, col_18, col_19 = st.columns([0.35, 0.3, 0.35])
+      with col_18:
+        st.pyplot(fig_14)
 
 
 with st.expander('Analysis with λ > 4.512/4π'):
   
   """
-  The parameters set for this section are:"""
+  The default parameters set for this section are:"""
   """
-  * T = 20 #MAX DOMINIO
-  * l = 4.512/(2*π) #LAMBDA
-  * M = 200 #NUMERO ITERAZIONI
+  * T = 20 (MAX DOMAIN)
+  * λ > 4.512/(4*π) (LAMBDA)
+  * M = 200 (NUMBER OF ITERATIONS)
   """
   T = 20 #MAX DOMINIO
   l = 4.512/(2*math.pi) #LAMBDA
@@ -323,7 +354,7 @@ with st.expander('Analysis with λ > 4.512/4π'):
 
   """The values of T, λ and M can be modified selecting the following checkbox, otherwise will be used the default parameters. 
   \nWARNING: T and M of thi section must be the same of the previous section and λ > 4.512/4π"""
-  if st.checkbox('Modify values of T, λ and M'):
+  if st.checkbox('Modify values for λ > 4.512/4π'):
       T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
       l = float(st.text_input('Insert value of  λ (max suggested = 2): ', 4.512/(2*math.pi)))
       M = int(st.text_input('Insert number of iterations M: ', 200))
@@ -392,68 +423,85 @@ with st.expander('Analysis with λ > 4.512/4π'):
 
 
 with st.expander('Analysis with λ < 4.512/4π'):
-  """###LAMBDA < 4.512/4PI"""
-
+  """
+  The default parameters set for this section are:"""
+  """
+  * T = 20 (MAX DOMAIN)
+  * λ < 4.512/(4*π) (LAMBDA)
+  * M = 200 (NUMBER OF ITERATIONS)
+  """
   T = 20 #MAX DOMINIO
   l = 4.512/(8*math.pi) #LAMBDA
   M = 200 #NUMERO ITERAZIONI
 
-  largest_cluster_size_df_3 = []
-  number_of_clusters_df_3 = []
-  number_of_ponits_df_3 = []
+  """The values of T, λ and M can be modified selecting the following checkbox, otherwise will be used the default parameters. 
+  \nWARNING: T and M of thi section must be the same of the previous section and λ > 4.512/4π"""
+  if st.checkbox('Modify values for λ < 4.512/4π'):
+      T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
+      l = float(st.text_input('Insert value of  λ (max suggested = 2): ', round(4.512/(8*math.pi), 3)))
+      M = int(st.text_input('Insert number of iterations M: ', 200))
+  
+  """Once the parameters are selected click the "Start Iterations" button below."""
+  
+  #ITERAZIONI E CREAZIONE DFs
+  if st.button('Start Iterations with λ < 4.512/4π'):
+    with st.spinner('Executing iterations'):
+      largest_cluster_size_df_3 = []
+      number_of_clusters_df_3 = []
+      number_of_ponits_df_3 = []
 
-  for i in range(M):
-    coordinates_x, coordinates_y, N = generate_poisson_coordinates(T, l)
-    clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
-    clusters = remove_duplicates(clusters_with_duplicates)
-    clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
-    clusters = remove_duplicates(clusters_with_duplicates)
-    #print ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
-    largest_cluster_size_df_3.append(largest_cluster_size(clusters))
-    number_of_clusters_df_3.append(number_of_clusters(clusters))
-    number_of_ponits_df_3.append(N)
+      for i in range(M):
+        coordinates_x, coordinates_y, N = generate_poisson_coordinates(T, l)
+        clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
+        clusters = remove_duplicates(clusters_with_duplicates)
+        clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
+        clusters = remove_duplicates(clusters_with_duplicates)
+        #print ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
+        largest_cluster_size_df_3.append(largest_cluster_size(clusters))
+        number_of_clusters_df_3.append(number_of_clusters(clusters))
+        number_of_ponits_df_3.append(N)
 
-  plt.figure(figsize = (10, 5))
-  plt.bar(range(M), number_of_ponits_df_3, color = 'cadetblue')
-  plt.title('Number Of Points')
-  plt.xlabel('Iteration')
-  plt.ylabel('Number Of Points')
+      plt.figure(figsize = (10, 5))
+      plt.bar(range(M), number_of_ponits_df_3, color = 'cadetblue')
+      plt.title('Number Of Points')
+      plt.xlabel('Iteration')
+      plt.ylabel('Number Of Points')
 
-  plt.show()
+      plt.show()
 
-  plt.figure(figsize = (10, 5))
-  plt.bar(range(M), largest_cluster_size_df_3, color = 'maroon')
-  plt.title('Largest Cluster Size')
-  plt.xlabel('Iteration')
-  plt.ylabel('Largest Cluster Size')
+      plt.figure(figsize = (10, 5))
+      plt.bar(range(M), largest_cluster_size_df_3, color = 'maroon')
+      plt.title('Largest Cluster Size')
+      plt.xlabel('Iteration')
+      plt.ylabel('Largest Cluster Size')
 
-  plt.show()
+      plt.show()
 
-  plt.figure(figsize = (10, 5))
-  plt.bar(range(M), number_of_clusters_df_3, color = 'forestgreen')
-  plt.title('Number of Clusters')
-  plt.xlabel('Iteration')
-  plt.ylabel('Number of Clusters')
+      plt.figure(figsize = (10, 5))
+      plt.bar(range(M), number_of_clusters_df_3, color = 'forestgreen')
+      plt.title('Number of Clusters')
+      plt.xlabel('Iteration')
+      plt.ylabel('Number of Clusters')
 
-  plt.show()
+      plt.show()
 
-  clusters_info_3 = pd.Series(largest_cluster_size_df_3, name = 'largest_cluster_size')
-  clusters_info_3 = pd.concat([pd.Series(number_of_ponits_df_3, name = 'number_of_ponits'), pd.Series(number_of_clusters_df_3, name = 'number_of_clusters'), clusters_info_3], axis = 1)
+      clusters_info_3 = pd.Series(largest_cluster_size_df_3, name = 'largest_cluster_size')
+      clusters_info_3 = pd.concat([pd.Series(number_of_ponits_df_3, name = 'number_of_ponits'), pd.Series(number_of_clusters_df_3, name = 'number_of_clusters'), clusters_info_3], axis = 1)
 
-  clusters_info_3.describe()
+      clusters_info_3.describe()
 
-  # Create a list to store colors for each cluster
-  cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
+      # Create a list to store colors for each cluster
+      cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
 
-  # Create a scatter plot with points colored by cluster
-  plt.figure(figsize = (5, 5))
-  for i, cluster in enumerate(clusters):
-    x_values = [coordinates_x[index] for index in cluster]
-    y_values = [coordinates_y[index] for index in cluster]
-    plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
-  plt.xticks(range(0, T + 1, int(T/10)))
-  plt.yticks(range(0, T + 1, int(T/10)))
-  plt.show()
+      # Create a scatter plot with points colored by cluster
+      plt.figure(figsize = (5, 5))
+      for i, cluster in enumerate(clusters):
+        x_values = [coordinates_x[index] for index in cluster]
+        y_values = [coordinates_y[index] for index in cluster]
+        plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
+      plt.xticks(range(0, T + 1, int(T/10)))
+      plt.yticks(range(0, T + 1, int(T/10)))
+      plt.show()
 
 
 with st.expander('Final comparison'):
