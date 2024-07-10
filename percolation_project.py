@@ -94,7 +94,7 @@ a picture with significantly larger clusters. This transition is not smooth, but
 connectivity crosses a critical value, called percolation threshold. 
 The scope of the present project is to study numerically this phenomenon in Boolean networks.
 
-\nWHAT IS A BOOLEAN NETWORK?
+\n*WHAT IS A BOOLEAN NETWORK?*
 
 \nConsider X a Poisson process of density λ > 0 on the plane and take r > 0. A Boolean random
 network on the plane, denoted by (X, λ, r), is constructed as follows: given a realization of the
@@ -347,11 +347,11 @@ with st.expander('Analysis with λ > 4.512/4π'):
   The default parameters set for this section are:"""
   """
   * T = 20 (MAX DOMAIN)
-  * λ > 4.512/(4*π) (LAMBDA)
+  * λ = 4.512/π (LAMBDA)
   * M = 200 (NUMBER OF ITERATIONS)
   """
   T = 20 #MAX DOMINIO
-  l = 4.512/(2*math.pi) #LAMBDA
+  l = 4.512/(math.pi) #LAMBDA
   M = 200 #NUMERO ITERAZIONI
 
   """The values of T, λ and M can be modified selecting the following checkbox, otherwise will be used the default parameters. 
@@ -461,7 +461,7 @@ with st.expander('Analysis with λ < 4.512/4π'):
   The default parameters set for this section are:"""
   """
   * T = 20 (MAX DOMAIN)
-  * λ < 4.512/(4*π) (LAMBDA)
+  * λ = 4.512/(16π) (LAMBDA)
   * M = 200 (NUMBER OF ITERATIONS)
   """
   T = 20 #MAX DOMINIO
@@ -583,7 +583,7 @@ with st.expander('Final comparison'):
       plt.ylabel('Largest Cluster Size Mean')
       plt.show()  
 
-      confronta_number_of_clusters_series = pd.concat([pd.Series(st.session_state['number_of_clusters_df_1'], name = 'number_of_clusters_λ=λc'), pd.Series(st.session_state['number_of_clusters_df_2'], name = 'number_of_clusters_λ>λc'), pd.Series(st.session_state['number_of_clusters_df_3'], name = 'number_of clusters_λ<λc'), ], axis = 1)
+      confronta_number_of_clusters_series = pd.concat([pd.Series(st.session_state['number_of_clusters_df_1'], name = 'number_of_clusters_λ=λc'), pd.Series(st.session_state['number_of_clusters_df_2'], name = 'number_of_clusters_λ>λc'), pd.Series(st.session_state['number_of_clusters_df_3'], name = 'number_of_clusters_λ<λc'), ], axis = 1)
       confronta_number_of_clusters_array = [np.mean(st.session_state['number_of_clusters_df_1']), np.mean(st.session_state['number_of_clusters_df_2']), np.mean(st.session_state['number_of_clusters_df_3'])]
 
       fig_42, ax = plt.subplots(figsize = (10, 5))
@@ -593,6 +593,16 @@ with st.expander('Final comparison'):
       plt.ylabel('Number of Clusters Mean')
       plt.show()
 
+      confronta_number_of_points_series = pd.concat([pd.Series(st.session_state['number_of_ponits_df_1'], name = 'number_of_points_λ=λc'), pd.Series(st.session_state['number_of_ponits_df_2'], name = 'number_of_points_λ>λc'), pd.Series(st.session_state['number_of_ponits_df_3'], name = 'number_of_points_λ<λc'), ], axis = 1)
+      confronta_number_of_points_array = [np.mean(st.session_state['number_of_ponits_df_1']), np.mean(st.session_state['number_of_ponits_df_2']), np.mean(st.session_state['number_of_ponits_df_3'])]
+
+      fig_43, ax = plt.subplots(figsize = (10, 5))
+      plt.bar(['λ=λc', 'λ>λc', 'λ<λc'], confronta_number_of_points_array, color = 'cadetblue')
+      plt.title('Number of Pointa Mean Comparison')
+      plt.xlabel('Lambda')
+      plt.ylabel('Number of Points Mean')
+      plt.show()
+      
       col_38, col_39 = st.columns(2)
       
       with col_38:
@@ -601,6 +611,7 @@ with st.expander('Final comparison'):
       with col_39:
         st.pyplot(fig_41)         
 
+      
       col_40, col_41, = st.columns(2) 
       
       with col_40:
@@ -608,3 +619,15 @@ with st.expander('Final comparison'):
 
       with col_41:
         st.pyplot(fig_42)
+      
+      
+      col_42, col_43, = st.columns(2) 
+      
+      with col_42:
+        st.write(confronta_number_of_points_series.describe())        
+
+      with col_43:
+        st.pyplot(fig_43)
+      
+      st.write(np.mean(st.session_state['largest_cluster_size_df_2'])/np.mean(st.session_state['number_of_ponits_df_2']))
+      st.write(np.mean(st.session_state['largest_cluster_size_df_3'])/np.mean(st.session_state['number_of_ponits_df_3']))
