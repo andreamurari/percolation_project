@@ -264,7 +264,11 @@ with st.expander('Analysis with λ = 4.512/4π'):
         largest_cluster_size_df_1.append(largest_cluster_size(clusters))
         number_of_clusters_df_1.append(number_of_clusters(clusters))
         number_of_ponits_df_1.append(N)
-
+      
+      st.session_state['largest_cluster_size_df_1'] = largest_cluster_size_df_1
+      st.session_state['number_of_clusters_df_1'] = number_of_clusters_df_1
+      st.session_state['number_of_ponits_df_1'] = number_of_ponits_df_1
+      
       """Here can be seen the bar chart of:"""
       
       """* Number Of Points"""
@@ -334,6 +338,7 @@ with st.expander('Analysis with λ = 4.512/4π'):
       col_17, col_18, col_19 = st.columns([0.35, 0.3, 0.35])
       with col_18:
         st.pyplot(fig_14)
+  
 
 
 with st.expander('Analysis with λ > 4.512/4π'):
@@ -375,6 +380,10 @@ with st.expander('Analysis with λ > 4.512/4π'):
         largest_cluster_size_df_2.append(largest_cluster_size(clusters))
         number_of_clusters_df_2.append(number_of_clusters(clusters))
         number_of_ponits_df_2.append(N)
+        
+      st.session_state['largest_cluster_size_df_2'] = largest_cluster_size_df_2
+      st.session_state['number_of_clusters_df_2'] = number_of_clusters_df_2
+      st.session_state['number_of_ponits_df_2'] = number_of_ponits_df_2
       
       """Here can be seen the bar chart of:"""
       
@@ -486,6 +495,9 @@ with st.expander('Analysis with λ < 4.512/4π'):
         number_of_clusters_df_3.append(number_of_clusters(clusters))
         number_of_ponits_df_3.append(N)
         
+      st.session_state['largest_cluster_size_df_3'] = largest_cluster_size_df_3
+      st.session_state['number_of_clusters_df_3'] = number_of_clusters_df_3
+      st.session_state['number_of_ponits_df_3'] = number_of_ponits_df_3
       """Here can be seen the bar chart of:"""
       
       """* Number Of Points"""
@@ -561,22 +573,9 @@ with st.expander('Final comparison'):
   """###CONFRONTO"""
   if st.button('Elaborate final comparison'):
     with st.spinner('Executing iterations'):
-      confronta_largest_cluster_size_serie = pd.concat([pd.Series(largest_cluster_size_df_1, name = 'largest_cluster_size_df_λ=λc'), pd.Series(largest_cluster_size_df_2, name = 'largest_cluster_size_df_λ>λc'), pd.Series(largest_cluster_size_df_3, name = 'largest_cluster_size_df_λ<λc'), ], axis = 1)
-      confronta_largest_cluster_size_array = [np.mean(largest_cluster_size_df_1), np.mean(largest_cluster_size_df_2), np.mean(largest_cluster_size_df_3)]
+      confronta_largest_cluster_size_serie = pd.concat([pd.Series(st.session_state['largest_cluster_size_df_1'], name = 'largest_cluster_size_df_λ=λc'), pd.Series(st.session_state['largest_cluster_size_df_2'], name = 'largest_cluster_size_df_λ>λc'), pd.Series(st.session_state['largest_cluster_size_df_3'], name = 'largest_cluster_size_df_λ<λc'), ], axis = 1)
+      confronta_largest_cluster_size_array = [np.mean(st.session_state['largest_cluster_size_df_1']), np.mean(st.session_state['largest_cluster_size_df_2']), np.mean(st.session_state['largest_cluster_size_df_3'])]
 
-      confronta_number_of_clusters_series = pd.concat([pd.Series(number_of_clusters_df_1, name = 'number_of_clusters_λ=λc'), pd.Series(number_of_clusters_df_2, name = 'number_of_clusters_λ>λc'), pd.Series(number_of_clusters_df_3, name = 'number_of clusters_λ<λc'), ], axis = 1)
-      confronta_number_of_clusters_array = [np.mean(number_of_clusters_df_1), np.mean(number_of_clusters_df_2), np.mean(number_of_clusters_df_3)]
-
-      col_38, col_39 = st.column(2)
-      
-      with col_38:
-        st.write(confronta_number_of_clusters_series.describe())
-  
-      with col_39:
-        st.write(confronta_largest_cluster_size_serie.describe())
-
-      col_40, col_41 = st.column(2)
-      
       fig_41, ax = plt.subplots(figsize = (10, 5))
       plt.bar(['λ=λc', 'λ>λc', 'λ<λc'], confronta_largest_cluster_size_array, color = 'maroon')
       plt.title('Largest Cluster Size Mean Comparison')
@@ -584,15 +583,28 @@ with st.expander('Final comparison'):
       plt.ylabel('Largest Cluster Size Mean')
       plt.show()  
 
+      confronta_number_of_clusters_series = pd.concat([pd.Series(st.session_state['number_of_clusters_df_1'], name = 'number_of_clusters_λ=λc'), pd.Series(st.session_state['number_of_clusters_df_2'], name = 'number_of_clusters_λ>λc'), pd.Series(st.session_state['number_of_clusters_df_3'], name = 'number_of clusters_λ<λc'), ], axis = 1)
+      confronta_number_of_clusters_array = [np.mean(st.session_state['number_of_clusters_df_1']), np.mean(st.session_state['number_of_clusters_df_2']), np.mean(st.session_state['number_of_clusters_df_3'])]
+
       fig_42, ax = plt.subplots(figsize = (10, 5))
       plt.bar(['λ=λc', 'λ>λc', 'λ<λc'], confronta_number_of_clusters_array, color = 'forestgreen')
       plt.title('Number of Clusters Mean Comparison')
       plt.xlabel('Lambda')
       plt.ylabel('Number of Clusters Mean')
       plt.show()
+
+      col_38, col_39 = st.columns(2)
+      
+      with col_38:
+        st.write(confronta_largest_cluster_size_serie.describe())
+
+      with col_39:
+        st.pyplot(fig_41)         
+
+      col_40, col_41, = st.columns(2) 
       
       with col_40:
-        st.pyplot(fig_41)
+        st.write(confronta_number_of_clusters_series.describe())        
 
       with col_41:
         st.pyplot(fig_42)
