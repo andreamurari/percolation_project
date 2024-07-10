@@ -378,41 +378,63 @@ with st.expander('Analysis with λ > 4.512/4π'):
         largest_cluster_size_df_2.append(largest_cluster_size(clusters))
         number_of_clusters_df_2.append(number_of_clusters(clusters))
         number_of_ponits_df_2.append(N)
-
-      plt.figure(figsize = (10, 5))
+      
+      """Here can be seen the bar chart of:"""
+      
+      """* Number Of Points"""
+      """*  Largest Cluster Size"""
+      """*  Number of Clusters"""
+      
+      col_20, col_21, col_22 = st.columns(3)
+      
+      fig_21, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), number_of_ponits_df_2, color = 'cadetblue')
       plt.title('Number Of Points')
       plt.xlabel('Iteration')
       plt.ylabel('Number Of Points')
-
       plt.show()
 
-      plt.figure(figsize = (10, 5))
+      with col_20:
+        st.pyplot(fig_21)
+        
+      fig_22, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), largest_cluster_size_df_2, color = 'maroon')
       plt.title('Largest Cluster Size')
       plt.xlabel('Iteration')
       plt.ylabel('Largest Cluster Size')
-
       plt.show()
+      
+      with col_21:
+        st.pyplot(fig_22)
 
-      plt.figure(figsize = (10, 5))
+      fig_23, ax = plt.subplots(figsize = (10,5))
       plt.bar(range(M), number_of_clusters_df_2, color = 'forestgreen')
       plt.title('Number of Clusters')
       plt.xlabel('Iteration')
       plt.ylabel('Number of Clusters')
-
       plt.show()
 
+      with col_22:
+        st.pyplot(fig_23)
+      
       clusters_info_2 = pd.Series(largest_cluster_size_df_2, name = 'largest_cluster_size')
       clusters_info_2 = pd.concat([pd.Series(number_of_ponits_df_2, name = 'number_of_ponits'), pd.Series(number_of_clusters_df_2, name = 'number_of_clusters'), clusters_info_2], axis = 1)
 
-      clusters_info_2.describe()
+      mean_largest_cluster_size_2 = np.mean(largest_cluster_size_df_2)
+      mean_number_of_clusters_2 = np.mean(number_of_clusters_df_2)
+      st.write("As we can see from the following table, the mean of the largest cluster's size in ", M, "iterations is ", mean_largest_cluster_size_2, 
+                "\n, the mean of the number of clusters is: ", mean_number_of_clusters_2,
+                "and the average number of points is: ", np.mean(number_of_ponits_df_2))
+      col_23, col_24, col_25 = st.columns([0.33, 0.34, 0.33])
+      
+      with col_24:
+        st.write(clusters_info_2.describe())
 
       # Create a list to store colors for each cluster
       cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
 
       # Create a scatter plot with points colored by cluster
-      plt.figure(figsize = (5, 5))
+      fig_24, ax = plt.subplots(figsize = (5, 5))
       for i, cluster in enumerate(clusters):
         x_values = [coordinates_x[index] for index in cluster]
         y_values = [coordinates_y[index] for index in cluster]
@@ -420,6 +442,11 @@ with st.expander('Analysis with λ > 4.512/4π'):
       plt.xticks(range(0, T + 1, int(T/10)))
       plt.yticks(range(0, T + 1, int(T/10)))
       plt.show()
+      
+      """Finally, we can take a look at the scatter-plot of the last iteration: clusters are identified with different colors (some colors may be repeated)"""
+      col_26, col_27, col_28 = st.columns([0.35, 0.3, 0.35])
+      with col_27:
+        st.pyplot(fig_24)
 
 
 with st.expander('Analysis with λ < 4.512/4π'):
