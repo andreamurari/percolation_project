@@ -570,7 +570,7 @@ with st.expander('Analysis with λ < 4.512/4π'):
         st.pyplot(fig_34)
 
 with st.expander('Final comparison'):
-  """###CONFRONTO"""
+  
   if st.button('Elaborate final comparison'):
     with st.spinner('Executing iterations'):
       confronta_largest_cluster_size_serie = pd.concat([pd.Series(st.session_state['largest_cluster_size_df_1'], name = 'largest_cluster_size_df_λ=λc'), pd.Series(st.session_state['largest_cluster_size_df_2'], name = 'largest_cluster_size_df_λ>λc'), pd.Series(st.session_state['largest_cluster_size_df_3'], name = 'largest_cluster_size_df_λ<λc'), ], axis = 1)
@@ -629,5 +629,7 @@ with st.expander('Final comparison'):
       with col_43:
         st.pyplot(fig_43)
       
-      st.write(np.mean(st.session_state['largest_cluster_size_df_2'])/np.mean(st.session_state['number_of_ponits_df_2']))
-      st.write(np.mean(st.session_state['largest_cluster_size_df_3'])/np.mean(st.session_state['number_of_ponits_df_3']))
+      "As expected, using a λ>λc, as we can see from the plots, we get a big cluster that contain the most of the generated points. \nIn particlar, using a λ = 4λc the percentage of the average size of the largest cluster on the average number of points is: "
+      st.write(round(np.mean(st.session_state['largest_cluster_size_df_2'])*100/np.mean(st.session_state['number_of_ponits_df_2']), 2), '%')
+      "On the other hand, setting a value for λ<λc, it's higlited that will be generated many smaller cluster. In particular, using a λ = λc/4 the percentage of the average size of the largest cluster on the average number of points is: "
+      st.write(round(np.mean(st.session_state['largest_cluster_size_df_3'])*100/np.mean(st.session_state['number_of_ponits_df_3']), 2), '%')
