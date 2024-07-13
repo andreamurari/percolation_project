@@ -15,7 +15,7 @@ import builtins as bt
 import matplotlib.pyplot as plt
 from scipy.stats import poisson
 from sklearn.cluster import DBSCAN
-st.title("Percolation on Boolean Networks")
+st.title(":bar_chart: Percolation on Boolean Networks :bar_chart:")
 #FUNZIONI
 
 #FUNZIONE CHE GENERA COORDINATE CON UNA POIS LAMBA * T^2
@@ -86,6 +86,7 @@ def largest_cluster_size (clusters):
 #FUNZIONE CHE RESTITUISCE IL NUMERO DI CLUSTERS
 def number_of_clusters(clusters):
   return len(clusters)
+
 with st.expander('Introduction'):
   """Percolation theory describes how the size of clusters of connected set of edges of large random networks
 varies as the connectivity - i.e. the probability that two vertices are connected by an edge - changes. As the
@@ -105,9 +106,9 @@ Poisson process and considering connected components formed by clusters of overl
 \nGiven a random network, a cluster is a set of connected points and the cluster size is defined as the
 number of nodes belonging to the cluster itself. Natural and relevant questions to address concern
 the number of clusters present in the network and the size of the largest cluster.
-The current project consists in what follows. Set r = 1 and taken a squared domain Λ = [0, T]×[0, T],
+The current project consists in what follows: set r = 1 and taken a squared domain Λ = [0, T]×[0, T],
 with T > 0 large, fixed a value of λ and made M independent simulations of the Boolean random
-network (X, λ, 1), will be computed the empirical average of the M sizes of the largest cluster.
+network (X, λ, λ), will be computed the empirical average of the M sizes of the largest cluster.
 Then, by running several simulations and collecting the results in appropriate plots, will be investigated the following problems:"""
   """*  How the size of the largest cluster depends on λ, considering when it's > / < / = λc (=  4.512/4π)."""
   """*  How the number of clusters depends on λ."""
@@ -145,7 +146,7 @@ with st.expander('Analysis with λ free'):
   
   #ITERAZIONI E CREAZIONE DFs
   if st.button('Start Iterations'):
-    with st.spinner('Executing iterations'):
+    with st.spinner('Executing iterations...'):
       largest_cluster_size_df_0 = []
       number_of_clusters_df_0 = []
       number_of_ponits_df_0 = []
@@ -210,8 +211,7 @@ with st.expander('Analysis with λ free'):
 
 
       # Create a list to store colors for each cluster
-      cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
-
+      cluster_colors = ['cyan', 'magenta', 'skyblue', 'dodgerblue', 'darkorchid']
       # Create a scatter plot with points colored by cluster
       fig_04, ax = plt.subplots(figsize = (5, 5))
       for i, cluster in enumerate(clusters):
@@ -249,7 +249,7 @@ with st.expander('Analysis with λ = 4.512/4π'):
   
   #ITERAZIONI E CREAZIONE DFs
   if st.button('Start Iterations with λ = 4.512/4π'):
-    with st.spinner('Executing iterations'):
+    with st.spinner('Executing iterations...'):
       largest_cluster_size_df_1 = []
       number_of_clusters_df_1 = []
       number_of_ponits_df_1 = []
@@ -258,8 +258,7 @@ with st.expander('Analysis with λ = 4.512/4π'):
         coordinates_x, coordinates_y, N = generate_poisson_coordinates(T, l)
         clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
         clusters = remove_duplicates(clusters_with_duplicates)
-        clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
-        clusters = remove_duplicates(clusters_with_duplicates)
+
         #print ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
         largest_cluster_size_df_1.append(largest_cluster_size(clusters))
         number_of_clusters_df_1.append(number_of_clusters(clusters))
@@ -321,8 +320,8 @@ with st.expander('Analysis with λ = 4.512/4π'):
         st.write(clusters_info_1.describe())
       
       # Create a list to store colors for each cluster
-      cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
-
+      cluster_colors = ['cyan', 'magenta', 'skyblue', 'dodgerblue', 'darkorchid']
+      
       # Create a scatter plot with points colored by cluster
       fig_14, ax = plt.subplots(figsize = (5, 5))
       for i, cluster in enumerate(clusters):
@@ -366,15 +365,13 @@ with st.expander('Analysis with λ > 4.512/4π'):
   
   #ITERAZIONI E CREAZIONE DFs
   if st.button('Start Iterations with λ > 4.512/4π'):
-    with st.spinner('Executing iterations'):
+    with st.spinner('Executing iterations...'):
       largest_cluster_size_df_2 = []
       number_of_clusters_df_2 = []
       number_of_ponits_df_2 = []
 
       for i in range(M):
         coordinates_x, coordinates_y, N = generate_poisson_coordinates(T, l)
-        clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
-        clusters = remove_duplicates(clusters_with_duplicates)
         clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
         clusters = remove_duplicates(clusters_with_duplicates)
         #print ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
@@ -438,8 +435,8 @@ with st.expander('Analysis with λ > 4.512/4π'):
         st.write(clusters_info_2.describe())
 
       # Create a list to store colors for each cluster
-      cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
-
+      cluster_colors = ['cyan', 'magenta', 'skyblue', 'dodgerblue', 'darkorchid']
+      
       # Create a scatter plot with points colored by cluster
       fig_24, ax = plt.subplots(figsize = (5, 5))
       for i, cluster in enumerate(clusters):
@@ -481,15 +478,13 @@ with st.expander('Analysis with λ < 4.512/4π'):
   
   #ITERAZIONI E CREAZIONE DFs
   if st.button('Start Iterations with λ < 4.512/4π'):
-    with st.spinner('Executing iterations'):
+    with st.spinner('Executing iterations...'):
       largest_cluster_size_df_3 = []
       number_of_clusters_df_3 = []
       number_of_ponits_df_3 = []
 
       for i in range(M):
         coordinates_x, coordinates_y, N = generate_poisson_coordinates(T, l)
-        clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
-        clusters = remove_duplicates(clusters_with_duplicates)
         clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
         clusters = remove_duplicates(clusters_with_duplicates)
         #print ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
@@ -553,8 +548,8 @@ with st.expander('Analysis with λ < 4.512/4π'):
 
 
       # Create a list to store colors for each cluster
-      cluster_colors = ['cyan', 'magenta', 'lightgreen', 'skyblue', 'pink']
-
+      cluster_colors = ['cyan', 'magenta', 'skyblue', 'dodgerblue', 'darkorchid']
+      
       # Create a scatter plot with points colored by cluster
       fig_34, ax = plt.subplots(figsize = (5, 5))
       for i, cluster in enumerate(clusters):
@@ -573,9 +568,9 @@ with st.expander('Analysis with λ < 4.512/4π'):
         st.pyplot(fig_34)
 
 with st.expander('Final comparison'):
-  
+  """In this section it'll be analyzed the results of the previous three ones. Click on the button below to elaborate the results. """  
   if st.button('Elaborate final comparison'):
-    with st.spinner('Executing iterations'):
+    with st.spinner('Elaborating Data...'):
       confronta_largest_cluster_size_serie = pd.concat([pd.Series(st.session_state['largest_cluster_size_df_1'], name = 'largest_cluster_size_df_λ=λc'), pd.Series(st.session_state['largest_cluster_size_df_2'], name = 'largest_cluster_size_df_λ>λc'), pd.Series(st.session_state['largest_cluster_size_df_3'], name = 'largest_cluster_size_df_λ<λc'), ], axis = 1)
       confronta_largest_cluster_size_array = [np.mean(st.session_state['largest_cluster_size_df_1']), np.mean(st.session_state['largest_cluster_size_df_2']), np.mean(st.session_state['largest_cluster_size_df_3'])]
 
