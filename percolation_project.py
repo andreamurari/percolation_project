@@ -233,7 +233,7 @@ with st.expander('Analysis with λ = 4.512/4π'):
   The parameters set for this section are:"""
   """
   * T = 20 (MAX DOMAIN)
-  * λ = 4.512/(4*π) (LAMBDA)
+  * λ = 4.512/(4π) (LAMBDA)
   * M = 200 (NUMBER OF ITERATIONS)
   """
 
@@ -331,8 +331,9 @@ with st.expander('Analysis with λ = 4.512/4π'):
         plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
       plt.xticks(range(0, T + 1, int(T/10)))
       plt.yticks(range(0, T + 1, int(T/10)))
-      plt.title('Scatter-plot of the last iteration')
+      plt.title('Scatter-plot of the last iteration λ = 4.512/4π')
       plt.show()
+      st.session_state['fig_14'] = fig_14
       
       """Finally, we can take a look at the scatter-plot of the last iteration: clusters are identified with different colors (some colors may be repeated)"""
       col_17, col_18, col_19 = st.columns([0.35, 0.3, 0.35])
@@ -355,7 +356,7 @@ with st.expander('Analysis with λ > 4.512/4π'):
   M = 200 #NUMERO ITERAZIONI
 
   """The values of T, λ and M can be modified selecting the following checkbox, otherwise will be used the default parameters. 
-  \nWARNING: T and M of thi section must be the same of the previous section and λ > 4.512/4π"""
+  \nWARNING: T and M of this section must be the same of the previous section and λ > 4.512/4π"""
   if st.checkbox('Modify values for λ > 4.512/4π'):
       T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
       l = float(st.text_input('Insert value of  λ (max suggested = 2): ', 4.512/(2*math.pi)))
@@ -447,8 +448,9 @@ with st.expander('Analysis with λ > 4.512/4π'):
         plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
       plt.xticks(range(0, T + 1, int(T/10)))
       plt.yticks(range(0, T + 1, int(T/10)))
-      plt.title('Scatter-plot of the last iteration')
+      plt.title('Scatter-plot of the last iteration (λ > 4.512/4π)')
       plt.show()
+      st.session_state['fig_24'] = fig_24
       
       """Finally, we can take a look at the scatter-plot of the last iteration: clusters are identified with different colors (some colors may be repeated)"""
       col_26, col_27, col_28 = st.columns([0.35, 0.3, 0.35])
@@ -469,7 +471,7 @@ with st.expander('Analysis with λ < 4.512/4π'):
   M = 200 #NUMERO ITERAZIONI
 
   """The values of T, λ and M can be modified selecting the following checkbox, otherwise will be used the default parameters. 
-  \nWARNING: T and M of thi section must be the same of the previous section and λ > 4.512/4π"""
+  \nWARNING: T and M of this section must be the same of the previous section and λ < 4.512/4π"""
   if st.checkbox('Modify values for λ < 4.512/4π'):
       T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
       l = float(st.text_input('Insert value of  λ (max suggested = 2): ', round(4.512/(8*math.pi), 3)))
@@ -561,8 +563,9 @@ with st.expander('Analysis with λ < 4.512/4π'):
         plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
       plt.xticks(range(0, T + 1, int(T/10)))
       plt.yticks(range(0, T + 1, int(T/10)))
-      plt.title('Scatter-plot of the last iteration')
+      plt.title('Scatter-plot of the last iteration λ < 4.512/4π')
       plt.show()
+      st.session_state['fig_34'] = fig_34
 
       """Finally, we can take a look at the scatter-plot of the last iteration: clusters are identified with different colors (some colors may be repeated)"""
       col_35, col_36, col_37 = st.columns([0.35, 0.3, 0.35])
@@ -633,3 +636,14 @@ with st.expander('Final comparison'):
       st.write(round(np.mean(st.session_state['largest_cluster_size_df_2'])*100/np.mean(st.session_state['number_of_ponits_df_2']), 2), '%')
       "On the other hand, setting a value for λ<λc, it's higlited that will be generated many smaller cluster. In particular, using a λ = λc/4 the percentage of the average size of the largest cluster on the average number of points is: "
       st.write(round(np.mean(st.session_state['largest_cluster_size_df_3'])*100/np.mean(st.session_state['number_of_ponits_df_3']), 2), '%')
+      
+      "This phenomenal might be observed looking at the last iteration plots using different λ: "
+      
+      col_44, col_45, col_46 = st.columns(3)
+      
+      with col_44:
+        st.pyplot(st.session_state['fig_14'])
+      with col_45:
+        st.pyplot(st.session_state['fig_24'])
+      with col_46:
+        st.pyplot(st.session_state['fig_34'])
