@@ -108,7 +108,7 @@ number of nodes belonging to the cluster itself. Natural and relevant questions 
 the number of clusters present in the network and the size of the largest cluster.
 The current project consists in what follows: set r = 1 and taken a squared domain Λ = [0, T]×[0, T],
 with T > 0 large, fixed a value of λ and made M independent simulations of the Boolean random
-network (X, λ, λ), will be computed the empirical average of the M sizes of the largest cluster.
+network (X, λ, r), will be computed the empirical average of the M sizes of the largest cluster.
 Then, by running several simulations and collecting the results in appropriate plots, will be investigated the following problems:"""
   """*  How the size of the largest cluster depends on λ, considering when it's > / < / = λc (=  4.512/4π)."""
   """*  How the number of clusters depends on λ."""
@@ -132,9 +132,9 @@ with st.expander('Analysis with λ free'):
   col_0, col_1 = st.columns([0.3, 0.7])
   with col_1:
     if st.checkbox('Modify values'):
-      T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
-      l = float(st.text_input('Insert value of  λ (max suggested = 2): ', 1))
-      M = int(st.text_input('Insert number of iterations M: ', 50))
+      T = int(st.text_input('Insert " T_0 " max dimension of the domain (max suggested = 40): ', 20))
+      l = float(st.text_input('Insert value of  λ_0 (max suggested = 2): ', 1))
+      M = int(st.text_input('Insert number of iterations M_0: ', 50))
 
   with col_0:
     if st.checkbox('Use default values'):
@@ -242,8 +242,8 @@ with st.expander('Analysis with λ = 4.512/4π'):
   M = 200 #NUMERO ITERAZIONI
   """The values of T and M can be modified selecting the following checkbox, otherwise will be used the default parameters."""
   if st.checkbox('Modify values of T and M'):
-      T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
-      M = int(st.text_input('Insert number of iterations M: ', 200))
+      T = int(st.text_input('Insert " T_1 " max dimension of the domain (max suggested = 40): ', 20))
+      M = int(st.text_input('Insert number of iterations M_1: ', 200))
   
   """Once the parameters are selected click the "Start Iterations" button below."""
   
@@ -357,9 +357,9 @@ with st.expander('Analysis with λ > 4.512/4π'):
   """The values of T, λ and M can be modified selecting the following checkbox, otherwise will be used the default parameters. 
   \nWARNING: T and M of this section must be the same of the previous section and λ > 4.512/4π"""
   if st.checkbox('Modify values for λ > 4.512/4π'):
-      T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
-      l = float(st.text_input('Insert value of  λ (max suggested = 2): ', 4.512/(2*math.pi)))
-      M = int(st.text_input('Insert number of iterations M: ', 200))
+      T = int(st.text_input('Insert " T_2 " max dimension of the domain (max suggested = 40): ', 20))
+      l = float(st.text_input('Insert value of  λ_2 (max suggested = 2): ', 4.512/(2*math.pi)))
+      M = int(st.text_input('Insert number of iterations M_2: ', 200))
   
   """Once the parameters are selected click the "Start Iterations" button below."""
   
@@ -470,9 +470,9 @@ with st.expander('Analysis with λ < 4.512/4π'):
   """The values of T, λ and M can be modified selecting the following checkbox, otherwise will be used the default parameters. 
   \nWARNING: T and M of this section must be the same of the previous section and λ < 4.512/4π"""
   if st.checkbox('Modify values for λ < 4.512/4π'):
-      T = int(st.text_input('Insert " T " max dimension of the domain (max suggested = 40): ', 20))
-      l = float(st.text_input('Insert value of  λ (max suggested = 2): ', round(4.512/(8*math.pi), 3)))
-      M = int(st.text_input('Insert number of iterations M: ', 200))
+      T = int(st.text_input('Insert " T_3 " max dimension of the domain (max suggested = 40): ', 20))
+      l = float(st.text_input('Insert value of  λ_3 (max suggested = 2): ', round(4.512/(8*math.pi), 3)))
+      M = int(st.text_input('Insert number of iterations M_3: ', 200))
   
   """Once the parameters are selected click the "Start Iterations" button below."""
   
