@@ -657,7 +657,7 @@ with st.expander('Show evolution with λ = 4.512/(kπ)'):
     k = float(st.text_input('Insert starting value for k: ', 8))
     s = float(st.text_input('Insert step dimension: ', 0.5))
     
-  if st.button ('Click me'):     
+  if st.button ('Generate Gif'):     
     with st.spinner('Generating frames...'):
       col_47, col_48, col_49 = st.columns(3)
       with col_48:
