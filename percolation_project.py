@@ -648,15 +648,20 @@ with st.expander('Final comparison'):
 with st.expander('Show evolution with λ = 4.512/(kπ)'):    
   """In this last section we can see how this phenomenal evolves with the increase of λ. 
   In particular, clicking on the button below, it'll be created a gif that represents scatter plots when λ = 4.512/(kπ) 
-  with k that goes from 8 to 0.5."""
-  
+  with k that goes from 8 to 0.5 with a step of 0.5 (these values can be modified with the checkbox below)."""
+  T = 20 #MAX DOMINIO
+  k = 8
+  s = 0.5
+  if st.checkbox('Modify values for k, T and for step'):
+    T = int(st.text_input('Insert " T_5 " max dimension of the domain (max suggested = 40): ', 20))
+    k = float(st.text_input('Insert starting value for k: ', 8))
+    s = float(st.text_input('Insert step dimension: ', 0.5))
+    
   if st.button ('Click me'):     
     with st.spinner('Generating frames...'):
       col_47, col_48, col_49 = st.columns(3)
       with col_48:
         cluster_colors = ['cyan', 'magenta', 'skyblue', 'dodgerblue', 'darkorchid']  
-        T = 20 #MAX DOMINIO
-        k = 8
         images = []
         image_list =[]
         while k > 0:
@@ -675,7 +680,7 @@ with st.expander('Show evolution with λ = 4.512/(kπ)'):
           plt.show()
           plt.savefig(f'scatter_plot_k_{k}.png', dpi=300)
           images.append(f'scatter_plot_k_{k}.png')
-          k= k-0.5
+          k= k-s
         image_list = [imageio.imread(image_path) for image_path in images]
         imageio.mimsave('my_gif.gif', image_list, format='GIF', fps = 0.75)
         with open("my_gif.gif", "rb") as f:
