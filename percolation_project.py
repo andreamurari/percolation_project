@@ -8,6 +8,8 @@ Original file is located at
 """
 
 import math
+import imageio
+import base64
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -112,6 +114,7 @@ network (X, λ, r), will be computed the empirical average of the M sizes of the
 Then, by running several simulations and collecting the results in appropriate plots, will be investigated the following problems:"""
   """*  How the size of the largest cluster depends on λ, considering when it's > / < / = λc (=  4.512/4π)."""
   """*  How the number of clusters depends on λ."""
+
   
 with st.expander('Analysis with λ free'):
   """
@@ -152,8 +155,6 @@ with st.expander('Analysis with λ free'):
       number_of_ponits_df_0 = []
       for i in range(M):
         coordinates_x, coordinates_y, N = generate_poisson_coordinates(T, l)
-        clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
-        clusters = remove_duplicates(clusters_with_duplicates)
         clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
         clusters = remove_duplicates(clusters_with_duplicates)
         #st.write ('Iteration: ', i+1, '\nNumber of points: ', N, '\nNumber of clusters: ',  number_of_clusters(clusters), '\nLargest cluster size: ', largest_cluster_size(clusters), '\n')
@@ -339,7 +340,6 @@ with st.expander('Analysis with λ = 4.512/4π'):
       with col_18:
         st.pyplot(fig_14)
   
-
 
 with st.expander('Analysis with λ > 4.512/4π'):
   
@@ -567,6 +567,7 @@ with st.expander('Analysis with λ < 4.512/4π'):
       with col_36:
         st.pyplot(fig_34)
 
+
 with st.expander('Final comparison'):
   """In this section it'll be analyzed the results of the previous three ones. Click on the button below to elaborate the results. """  
   if st.button('Elaborate final comparison'):
@@ -642,3 +643,44 @@ with st.expander('Final comparison'):
         st.pyplot(st.session_state['fig_24'])
       with col_46:
         st.pyplot(st.session_state['fig_34'])
+  
+  
+with st.expander('Show evolution with λ = 4.512/(kπ)'):    
+  """In this last section we can see how this phenomenal evolves with the increase of λ. 
+  In particular, clicking on the button below, it'll be created a gif that represents scatter plots when λ = 4.512/(kπ) 
+  with k that goes from 8 to 0.5."""
+  
+  if st.button ('Click me'):     
+    with st.spinner('Generating frames...'):
+      col_47, col_48, col_49 = st.columns(3)
+      with col_48:
+        cluster_colors = ['cyan', 'magenta', 'skyblue', 'dodgerblue', 'darkorchid']  
+        T = 20 #MAX DOMINIO
+        k = 8
+        images = []
+        image_list =[]
+        while k > 0:
+          l = 4.512/(k*math.pi)
+          coordinates_x, coordinates_y, N = generate_poisson_coordinates(T, l)
+          clusters_with_duplicates = clusterizza_dbscan(coordinates_x, coordinates_y)
+          clusters = remove_duplicates(clusters_with_duplicates)
+          fig_ab, ax = plt.subplots(figsize = (5, 5))
+          for i, cluster in enumerate(clusters):
+            x_values = [coordinates_x[index] for index in cluster]
+            y_values = [coordinates_y[index] for index in cluster]
+            plt.scatter(x_values, y_values, c=cluster_colors[i % len(cluster_colors)], linewidths=100/T)
+          plt.xticks(range(0, T + 1, int(T/10)))
+          plt.yticks(range(0, T + 1, int(T/10)))
+          plt.title(f'Scatter-plot with k = {k}')
+          plt.show()
+          plt.savefig(f'scatter_plot_k_{k}.png', dpi=300)
+          images.append(f'scatter_plot_k_{k}.png')
+          k= k-0.5
+        image_list = [imageio.imread(image_path) for image_path in images]
+        imageio.mimsave('my_gif.gif', image_list, format='GIF', fps = 0.75)
+        with open("my_gif.gif", "rb") as f:
+            contents = f.read()
+
+        data_url = base64.b64encode(contents).decode("utf-8")
+
+        st.markdown(f"<img src=\"data:image/gif;base64,{data_url}\" loop>", unsafe_allow_html=True)
