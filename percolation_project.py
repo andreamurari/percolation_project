@@ -659,7 +659,7 @@ with st.expander('Show evolution with λ = 4.512/(kπ)'):
     
   if st.button ('Generate Gif'):     
     with st.spinner('Generating frames...'):
-      col_47, col_48, col_49 = st.columns(3)
+      col_47, col_48, col_49 = st.columns([0.3, 0.4, 0.3])
       with col_48:
         cluster_colors = ['cyan', 'magenta', 'skyblue', 'dodgerblue', 'darkorchid']  
         images = []
